@@ -1,47 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-main() {
+
+void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  String data = "Press button to fetch data";
-
-  Future<void> fetchData() async {
-    final response = await http.get(Uri.parse("https://jsonplaceholder.typicode.com/todos/1"));
-    setState(() {
-      data = response.body;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("My First Flutter App")),
-      body: Center(child: Text(data)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: fetchData,
-        child: const Icon(Icons.download),
+      home: Scaffold(
+        backgroundColor: Colors.amberAccent,
+        appBar: AppBar(
+          title: const Text(
+            'Hello World',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+              letterSpacing: 1.5,
+            ),
+          ),
+          backgroundColor: Colors.deepPurpleAccent,
+          centerTitle: true,
+          elevation: 4,
+          shadowColor: Colors.red,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          toolbarHeight: 30,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(color: Colors.red, width: 1),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.green,
+                      blurRadius: 10,
+                      offset: Offset(4, 4),
+                    ),
+                  ],
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "$counter",
+                  style: const TextStyle(
+                    fontSize: 100,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    counter++;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  "Increment",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
